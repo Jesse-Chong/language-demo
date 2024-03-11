@@ -1,6 +1,8 @@
 import './App.css';
 import { useTranslation } from 'react-i18next';
 import { Suspense } from 'react';
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import AboutPage from './AboutPage';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -12,20 +14,14 @@ function App() {
     i18n.changeLanguage(newLanguage);
   };
 
-  // useEffect(() => {
-  //   console.log('All translations:', i18n.store.data);
-  //   console.log('Current translations:', i18n.getDataByLanguage(i18n.language));
-  
-  //   // Access translations based on the language directly
-  //   const greetingsTranslation = i18n.store.data[i18n.language].translations.greetings;
-  //   console.log('Translation for "greetings" key:', greetingsTranslation);
-  // }, [i18n.language]);
-
-
+  // const handleSubmit = () => {
+  //   console.log('Form submitted');
+  // };
+  // onClick={handleSubmit}
   return (
+    <Router>
     <div className="App">
       <h1>{t('greetings')}</h1>
-      <h2>{t('submit_button')}</h2>
       <label>Select Language: </label>
       <select onChange={(e) => changeLanguage(e.target.value)} value={i18n.language}>
         <option value="en">English</option>
@@ -36,7 +32,20 @@ function App() {
         <option value="zh_CN">Chinese</option>
         <option value="ko">Korean</option>
       </select>
-    </div>
+      <br />
+      <button type="submit">
+        {t('submit_button')}
+      </button>
+      <hr />
+        <Link to="/about">
+          <button>{t('about_button')}</button>
+        </Link>
+
+        <Routes>
+          <Route path="/about" element={<AboutPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
